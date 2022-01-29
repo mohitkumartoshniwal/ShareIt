@@ -84,17 +84,19 @@ const Pin = ({ pin: { image, save, postedBy, _id, destination } }) => {
                             )}
                         </div>
                         <div className='flex justify-between items-center gap-2 w-full'>
-                            {destination ? (
+                            {destination?.slice(8).length > 0 ? (
                                 <a
                                     href={destination}
-                                    target='_blank'
-                                    rel='noreferrer'
-                                    className='bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100  hover:shadow-md'
+                                    target="_blank"
+                                    className="bg-white flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md"
+                                    rel="noreferrer"
+                                    onClick={e => e.stopPropagation()}
                                 >
+                                    {' '}
                                     <BsFillArrowUpRightCircleFill />
-                                    {destination.length > 20 ? destination.slice(8, 20) : destination.slice(8)}
+                                    {destination?.slice(8, 17)}...
                                 </a>
-                            ) : null}
+                            ) : undefined}
                             {postedBy?._id === user?.googleId ? (
                                 <button
                                     type='button'
