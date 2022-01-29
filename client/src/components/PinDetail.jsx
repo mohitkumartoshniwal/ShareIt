@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { MdDownloadForOffline } from 'react-icons/md';
+import { MdDownloadForOffline, MdEdit } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 import { client, urlFor } from '../sanityClient';
 
 import MasonryLayout from './MasonryLayout';
 import { pinDetailMorePinQuery, pinDetailQuery } from '../utils/data';
 import Spinner from './Spinner';
+import { fetchUser } from '../utils/fetchUser';
 
 const PinDetail = ({ user }) => {
   const { pinId } = useParams();
@@ -15,7 +16,6 @@ const PinDetail = ({ user }) => {
   const [pinDetail, setPinDetail] = useState();
   const [comment, setComment] = useState('');
   const [addingComment, setAddingComment] = useState(false);
-
   const fetchPinDetails = () => {
     const query = pinDetailQuery(pinId);
 
@@ -33,6 +33,7 @@ const PinDetail = ({ user }) => {
     }
   };
 
+
   useEffect(() => {
     fetchPinDetails();
   }, [pinId]);
@@ -44,7 +45,7 @@ const PinDetail = ({ user }) => {
       client
         .patch(pinId)
         .setIfMissing({ comments: [] })
-        .insert('after', 'comments[-1]', [{ comment, _key: uuidv4(), postedBy: { _type: 'postedBy', _ref: user._id } }])
+        .insert('after', 'comments[-1]', [{ comment, _key: uuid(), postedBy: { _type: 'postedBy', _ref: user._id } }])
         .commit()
         .then(() => {
           fetchPinDetails();
@@ -81,6 +82,12 @@ const PinDetail = ({ user }) => {
                 >
                   <MdDownloadForOffline />
                 </a>
+                {pinDetail.postedBy?._id === user._id ? (
+                  <Link to={`/edit-pin/${pinId}`}>
+                    <MdEdit />
+                  </Link>
+                ) : null}
+
               </div>
               <a href={pinDetail.destination} target="_blank" rel="noreferrer">
                 {pinDetail.destination?.slice(8)}
