@@ -1,6 +1,6 @@
 # Pinterest Clone
 
-Pinterest Clone , A React spa with styling using tailwind css. We can create/read/update/delete pins, search pins based on title, description and category. User can sing up/log in/log out using his/her google account.
+Pinterest Clone , A React spa with styling using tailwind css. We can create/read/update/delete pins, search pins based on title, description and category. User can sign up/log in/log out using his/her google account.
 
 ## Application Links
 
